@@ -1,6 +1,7 @@
 package com.gratitoad.gratitoad.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "phrase")
@@ -10,9 +11,13 @@ public class Phrase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotBlank(message = "Phrase cannot be blank")
+    @Size(max = 500, message = "Phrase cannot be more than 500 characters")
     @Column(nullable = false, length = 500)
     private String phrase;
 
+    @Min(value = -3, message = "Value must be at least -3")
+    @Max(value = 3, message = "Value must be at most 3")
     @Column(nullable = false)
     private int value;
 
