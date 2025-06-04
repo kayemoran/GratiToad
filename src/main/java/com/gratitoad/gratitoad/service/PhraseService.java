@@ -50,8 +50,9 @@ public class PhraseService {
         }
     }
 
-    public Optional<Phrase> getPhraseById(Integer id) {
-        return phraseRepository.findById(id);
+    public Phrase getPhraseById(Integer id) {
+        return phraseRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Phrase with id " + id + " not found"));
     }
 
 }
