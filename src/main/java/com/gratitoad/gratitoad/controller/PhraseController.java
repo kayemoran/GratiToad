@@ -36,5 +36,15 @@ public class PhraseController {
         }
     }
 
+    @GetMapping("/phrases/{id}")
+    public ResponseEntity<Phrase> getPhraseById(@PathVariable Integer id) {
+        try {
+            Phrase phrase = phraseService.getPhraseById(id);
+            return ResponseEntity.ok(phrase);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(404).body(null);
+        }
+    }
+
 
 }
