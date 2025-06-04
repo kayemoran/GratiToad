@@ -5,6 +5,7 @@ import com.gratitoad.gratitoad.repository.PhraseRepository;
 import com.gratitoad.gratitoad.service.PhraseService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,14 +17,34 @@ public class PhraseController {
     @Autowired
     private PhraseService phraseService;
 
+    
     @GetMapping("/phrases")
-    public List<Phrase> getAllPhrases() {
-        return phraseService.getAllPhrases();
+    public ResponseEntity<?> getAllPhrases() {
+        try {
+            List<Phrase> phrases = phraseService.getAllPhrases();
+            if (phrases.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Currently no phrases.");
+            }
+            return ResponseEntity.ok(phrases);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Failed to get phrases." + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error getting the phrases." + e.getMessage());
+        }
     }
 
     @PostMapping("/phrases")
-    public Phrase savePhrase(@RequestBody Phrase phrase) {
-        return phraseService.savePhrase(phrase);
+    public ResponseEntity<String> savePhrase(@RequestBody Phrase phrase) {
+        try {
+            phraseService.savePhrase(phrase);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Phrase saved successfully.");
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Phrase failed to be saved." + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal error:" + e.getMessage());
+            //Continue using this type of status format
+        }
+
     }
 
     @DeleteMapping("/phrases/{id}")
