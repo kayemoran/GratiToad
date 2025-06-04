@@ -54,4 +54,19 @@ public class PhraseService {
         return phraseRepository.findById(id);
     }
 
+    public List<Phrase> searchPhrases(String keyword) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return getAllPhrases();
+        }
+        return phraseRepository.findByPhraseContainingIgnoreCase(keyword.trim());
+    }
+
+    public List<Phrase> getPositivePhrases() {
+        return phraseRepository.findByValueBetween(1, 3);
+    }
+
+    public List<Phrase> getNegativePhrases() {
+        return phraseRepository.findByValueBetween(-3, -1);
+    }
+
 }
