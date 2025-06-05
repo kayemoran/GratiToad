@@ -17,14 +17,17 @@ public class PhraseService {
     @Autowired
     private PhraseRepository phraseRepository;
 
+    //hämtar alla fraser
     public List<Phrase> getAllPhrases() {
         return phraseRepository.findAll();
     }
 
+    //Sparar fraser
     public Phrase savePhrase(Phrase phrase) {
         return phraseRepository.save(phrase);
     }
 
+    //uppdaterar fraser
     public Phrase updatePhrase(Integer id, Phrase updatedPhrase) {
         Phrase existing = phraseRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Phrase not found"));
@@ -42,6 +45,7 @@ public class PhraseService {
         return phraseRepository.save(existing);
     }
 
+    //tar bort fraser
     public void deletePhrase(Integer id) {
         if (phraseRepository.existsById(id)) {
             phraseRepository.deleteById(id);
@@ -50,11 +54,13 @@ public class PhraseService {
         }
     }
 
+    //hämtar en specifik fras via id
     public Phrase getPhraseById(Integer id) {
         return phraseRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Phrase with id " + id + " not found"));
     }
 
+    //Sök efter fraser
     public List<Phrase> searchPhrases(String keyword) {
         // Validering
         if (keyword == null) {
@@ -71,6 +77,8 @@ public class PhraseService {
 
         return phraseRepository.findByPhraseContainingIgnoreCase(keyword.trim());
     }
+
+    //hämtar positiva fraser
     public List<Phrase> getPositivePhrases() {
         try {
             return phraseRepository.findByValueBetween(1, 3);
@@ -79,6 +87,7 @@ public class PhraseService {
         }
     }
 
+    //hämtar negativa fraser
     public List<Phrase> getNegativePhrases() {
         try {
             return phraseRepository.findByValueBetween(-3, -1);
