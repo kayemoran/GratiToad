@@ -48,20 +48,59 @@ public class PhraseController {
 
     // Sök efter fraser som innehåller text
     @GetMapping("/phrases/search")
-    public List<Phrase> searchPhrases(@RequestParam String keyword) {
-        return phraseService.searchPhrases(keyword);
+    public ResponseEntity<?> searchPhrases(@RequestParam String keyword) {
+        try {
+            List<Phrase> phrases = phraseService.searchPhrases(keyword);
+
+            if (phrases.isEmpty()) {
+                return ResponseEntity.ok().body("No phrases found containing: " + keyword);
+            }
+
+            return ResponseEntity.ok(phrases);
+
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Invalid search: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Internal server error while searching phrases");
+        }
     }
 
     // Få positiva fraser
     @GetMapping("/phrases/positive")
-    public List<Phrase> getPositivePhrases() {
-        return phraseService.getPositivePhrases();
+    public ResponseEntity<?> getPositivePhrases() {
+        try {
+            List<Phrase> phrases = phraseService.getPositivePhrases();
+
+            if (phrases.isEmpty()) {
+                return ResponseEntity.ok().body("No positive phrases found");
+            }
+
+            return ResponseEntity.ok(phrases);
+
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(500).body("Error retrieving positive phrases: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Internal server error while retrieving positive phrases");
+        }
     }
 
     // Få negativa fraser
     @GetMapping("/phrases/negative")
-    public List<Phrase> getNegativePhrases() {
-        return phraseService.getNegativePhrases();
+    public ResponseEntity<?> getNegativePhrases() {
+        try {
+            List<Phrase> phrases = phraseService.getNegativePhrases();
+
+            if (phrases.isEmpty()) {
+                return ResponseEntity.ok().body("No negative phrases found");
+            }
+
+            return ResponseEntity.ok(phrases);
+
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(500).body("Error retrieving negative phrases: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Internal server error while retrieving negative phrases");
+        }
     }
 
 

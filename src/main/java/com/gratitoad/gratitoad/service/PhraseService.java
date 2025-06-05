@@ -55,18 +55,34 @@ public class PhraseService {
     }
 
     public List<Phrase> searchPhrases(String keyword) {
-        if (keyword == null || keyword.trim().isEmpty()) {
-            return getAllPhrases();
+        // Validering
+        if (keyword == null) {
+            throw new IllegalArgumentException("Search keyword cannot be null");
         }
+
+        if (keyword.trim().isEmpty()) {
+            throw new IllegalArgumentException("Search keyword cannot be empty");
+        }
+
+        if (keyword.length() > 100) {
+            throw new IllegalArgumentException("Search keyword cannot be longer than 100 characters");
+        }
+
         return phraseRepository.findByPhraseContainingIgnoreCase(keyword.trim());
     }
-
     public List<Phrase> getPositivePhrases() {
-        return phraseRepository.findByValueBetween(1, 3);
+        try {
+            return phraseRepository.findByValueBetween(1, 3);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to retrieve positive phrases", e);
+        }
     }
 
     public List<Phrase> getNegativePhrases() {
-        return phraseRepository.findByValueBetween(-3, -1);
+        try {
+            return phraseRepository.findByValueBetween(-3, -1);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to retrieve negative phrases", e);
+        }
     }
-
 }
