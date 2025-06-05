@@ -106,8 +106,197 @@
             const userSentiment = document.getElementById('userSentiment').value;
             
             // Här kan du skicka både text och userSentiment till din Spring Boot backend
-            console.log('Text:', phrase);
-            console.log('User sentiment rating:', userSentiment);
+            // Konfigurera din backend URL
+const API_BASE_URL = 'http://localhost:8080';
+
+// Funktion för att skicka ny fras till backend
+async function savePhrase(phraseData) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/phrases`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(phraseData)
+        });
+
+        if (response.ok) {
+            const message = await response.text();
+            console.log('Success:', message);
+            return { success: true, message: message };
+        } else {
+            const errorMessage = await response.text();
+            console.error('Error:', errorMessage);
+            return { success: false, message: errorMessage };
+        }
+    } catch (error) {
+        console.error('Network error:', error);
+        return { success: false, message: 'Nätverksfel: Kunde inte ansluta till servern' };
+    }
+}
+
+// Funktion för att hämta alla fraser från backend
+async function getAllPhrases() {
+    try {
+        const response = await fetch(`${API_BASE_URL}/phrases`);
+        
+        if (response.ok) {
+            const phrases = await response.json();
+            return { success: true, data: phrases };
+        } else {
+            const errorMessage = await response.text();
+            return { success: false, message: errorMessage };
+        }
+    } catch (error) {
+        console.error('Network error:', error);
+        return { success: false, message: 'Kunde inte hämta fraser' };
+    }
+}
+
+// Huvudfunktion som körs när sidan laddas
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Hitta formuläret (anpassa selector efter ditt HTML)
+    const form = document.getElementById('phraseForm');
+    const textInput = document.getElementById('phraseText');
+    const submitButton = document.getElementById('submitBtn');
+    const messageDiv = document.getElementById('message');
+    const phrasesContainer = document.getElementById('phrasesContainer');
+
+    // Hantera formulärinlämning
+    if (form) {
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault(); // Förhindra standard form submission
+            
+            // Hämta värden från formuläret
+            const phraseText = textInput.value.trim();
+            
+            // Validera input
+            if (!phraseText) {
+                showMessage('Vänligen skriv in en fras', 'error');
+                return;
+            }
+
+            // Visa loading state
+            submitButton.disabled = true;
+            submitButton.textContent = 'Sparar...';
+
+            // Skapa phrase object (anpassa efter din Phrase entity struktur)
+            const phraseData = {
+                text: phraseText,
+                // Lägg till andra fält som din Phrase entity har
+                // t.ex. category, sentiment, etc.
+            };
+
+            // Skicka till backend
+            const result = await savePhrase(phraseData);
+
+            if (result.success) {
+                showMessage('Frasen sparades framgångsrikt!', 'success');
+                textInput.value = ''; // Rensa formuläret
+                loadAndDisplayPhrases(); // Uppdatera listan
+            } else {
+                showMessage(`Fel: ${result.message}`, 'error');
+            }
+
+            // Återställ knappen
+            submitButton.disabled = false;
+            submitButton.textContent = 'Spara Fras';
+        });
+    }
+
+    // Funktion för att visa meddelanden
+    function showMessage(message, type) {
+        if (messageDiv) {
+            messageDiv.textContent = message;
+            messageDiv.className = `message ${type}`;
+            messageDiv.style.display = 'block';
+            
+            // Dölj meddelandet efter 5 sekunder
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 5000);
+        }
+    }
+
+    // Funktion för att ladda och visa alla fraser
+    async function loadAndDisplayPhrases() {
+        if (!phrasesContainer) return;
+
+        const result = await getAllPhrases();
+        
+        if (result.success) {
+            displayPhrases(result.data);
+        } else {
+            phrasesContainer.innerHTML = `<p class="error">Kunde inte ladda fraser: ${result.message}</p>`;
+        }
+    }
+
+    // Funktion för att visa fraser i HTML
+    function displayPhrases(phrases) {
+        if (!Array.isArray(phrases) || phrases.length === 0) {
+            phrasesContainer.innerHTML = '<p>Inga fraser att visa.</p>';
+            return;
+        }
+
+        const html = phrases.map(phrase => `
+            <div class="phrase-item" data-id="${phrase.id}">
+                <p class="phrase-text">${escapeHtml(phrase.text)}</p>
+                <div class="phrase-actions">
+                    <button onclick="deletePhrase(${phrase.id})" class="delete-btn">Ta bort</button>
+                </div>
+            </div>
+        `).join('');
+
+        phrasesContainer.innerHTML = html;
+    }
+
+    // Hjälpfunktion för att escapea HTML
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    // Ladda fraser när sidan laddas
+    loadAndDisplayPhrases();
+});
+
+// Funktion för att ta bort en fras (global så den kan anropas från HTML)
+async function deletePhrase(id) {
+    if (!confirm('Är du säker på att du vill ta bort denna fras?')) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/phrases/${id}`, {
+            method: 'DELETE'
+        });
+
+        if (response.ok) {
+            // Ta bort elementet från DOM
+            const phraseElement = document.querySelector(`[data-id="${id}"]`);
+            if (phraseElement) {
+                phraseElement.remove();
+            }
+            
+            // Visa bekräftelsemeddelande
+            const messageDiv = document.getElementById('message');
+            if (messageDiv) {
+                messageDiv.textContent = 'Frasen togs bort framgångsrikt!';
+                messageDiv.className = 'message success';
+                messageDiv.style.display = 'block';
+                setTimeout(() => messageDiv.style.display = 'none', 3000);
+            }
+        } else {
+            const errorMessage = await response.text();
+            alert(`Fel vid borttagning: ${errorMessage}`);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Nätverksfel vid borttagning av fras');
+    }
+}
             
             // Simulerad respons för demo   To do
             setTimeout(() => {
