@@ -123,7 +123,8 @@ public class PhraseController {
             return ResponseEntity.status(500).body("Error retrieving negative phrases: " + e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Internal server error while retrieving negative phrases");
-
+        }
+    }
     @GetMapping("/phrases/{id}")
     public ResponseEntity<Phrase> getPhraseById(@PathVariable Integer id) {
         try {
@@ -134,6 +135,5 @@ public class PhraseController {
 
         }
     }
-
 
 }
