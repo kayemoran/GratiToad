@@ -12,12 +12,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:8080")
 public class PhraseController {
     @Autowired
     private PhraseService phraseService;
 
-    
+
     @GetMapping("/phrases")
     public ResponseEntity<?> getAllPhrases() {
         try {
@@ -56,7 +57,7 @@ public class PhraseController {
             return ResponseEntity.status(404).body("Phrase with id " + id + " not found");
         }
     }
-      @PutMapping("/phrases/{id}")
+    @PutMapping("/phrases/{id}")
     public ResponseEntity<?> updatePhrase(@PathVariable Integer id, @RequestBody Phrase phrase) { //@Valid??? Med @Valid får Spring automatiskt valideringsfel, läggs till sen.
         try {
             Phrase updated = phraseService.updatePhrase(id, phrase);
