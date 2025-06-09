@@ -487,6 +487,10 @@
             display: none;
         }
 
+        .text-input {
+            resize: none; /* Förhindrar storleksändring */
+        }
+
         .result-container.success {
             background-color: #d4edda;
             color: #155724;
