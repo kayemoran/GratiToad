@@ -138,7 +138,7 @@ async function loadAndDisplayPhrases() {
     const result = await getAllPhrases();
 
     if (result.success) {
-        displayPhrases(result.data, phrasesContainer);
+
     } else {
         phrasesContainer.innerHTML = `<p class="error">Kunde inte ladda fraser: ${result.message}</p>`;
     }
@@ -204,7 +204,7 @@ document.getElementById('sentimentForm').addEventListener('submit', async functi
         phrase: phrase,              // Matchar din entity
         value: parseInt(userSentiment),  // Matchar din entity
         user: {                      // Skickar User-objekt
-            user_id: 1               // Sätter till användare 1 (Anna) som standard
+            userId: 1               // Sätter till användare 1 (Anna) som standard
         }
     };
 
