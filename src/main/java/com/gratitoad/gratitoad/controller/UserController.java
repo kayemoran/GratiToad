@@ -18,6 +18,7 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    //Hämtar alla users
     @GetMapping("/users")
     public ResponseEntity<?> getAllUsers() {
         try {

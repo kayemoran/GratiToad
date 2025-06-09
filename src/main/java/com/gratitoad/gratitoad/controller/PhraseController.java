@@ -13,12 +13,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "*")
 public class PhraseController {
     @Autowired
     private PhraseService phraseService;
 
-
+    //hämta alla fraser
     @GetMapping("/phrases")
     public ResponseEntity<?> getAllPhrases() {
         try {
@@ -34,6 +34,7 @@ public class PhraseController {
         }
     }
 
+    //sparar fras
     @PostMapping("/phrases")
     public ResponseEntity<String> savePhrase(@RequestBody Phrase phrase) {
         try {
@@ -48,6 +49,7 @@ public class PhraseController {
 
     }
 
+    // raderar fras
     @DeleteMapping("/phrases/{id}")
     public ResponseEntity<String> deletePhrase(@PathVariable Integer id) {
         try {
@@ -57,6 +59,8 @@ public class PhraseController {
             return ResponseEntity.status(404).body("Phrase with id " + id + " not found");
         }
     }
+
+    //uppdaterar fras
     @PutMapping("/phrases/{id}")
     public ResponseEntity<?> updatePhrase(@PathVariable Integer id, @RequestBody Phrase phrase) { //@Valid??? Med @Valid får Spring automatiskt valideringsfel, läggs till sen.
         try {
@@ -69,7 +73,7 @@ public class PhraseController {
         }
     }
 
-
+    
     // Sök efter fraser som innehåller text
     @GetMapping("/phrases/search")
     public ResponseEntity<?> searchPhrases(@RequestParam String keyword) {
@@ -89,7 +93,7 @@ public class PhraseController {
         }
     }
 
-    // Få positiva fraser
+    // Hämtar positiva fraser
     @GetMapping("/phrases/positive")
     public ResponseEntity<?> getPositivePhrases() {
         try {
@@ -108,7 +112,7 @@ public class PhraseController {
         }
     }
 
-    // Få negativa fraser
+    // Hämtar negativa fraser
     @GetMapping("/phrases/negative")
     public ResponseEntity<?> getNegativePhrases() {
         try {
@@ -126,6 +130,8 @@ public class PhraseController {
             return ResponseEntity.status(500).body("Internal server error while retrieving negative phrases");
         }
     }
+
+    //Hämtar en specifik fras via id
     @GetMapping("/phrases/{id}")
     public ResponseEntity<Phrase> getPhraseById(@PathVariable Integer id) {
         try {
