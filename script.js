@@ -35,7 +35,7 @@ const API_BASE_URL = 'http://localhost:8080';
 // Funktion för att skicka ny fras till backend
 async function savePhrase(phraseData) {
     try {
-        const response = await fetch(`${API_BASE_URL}/phrases`, {
+        const response = await fetch(`${API_BASE_URL}/api/phrases`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ async function savePhrase(phraseData) {
 // Funktion för att hämta alla fraser från backend
 async function getAllPhrases() {
     try {
-        const response = await fetch(`${API_BASE_URL}/phrases`);
+        const response = await fetch(`${API_BASE_URL}/api/phrases`);
 
         if (response.ok) {
             const phrases = await response.json();
@@ -83,7 +83,7 @@ async function deletePhrase(id) {
     }
 
     try {
-        const response = await fetch(`${API_BASE_URL}/phrases/${id}`, {
+        const response = await fetch(`${API_BASE_URL}/api/phrases/${id}`, {
             method: 'DELETE'
         });
 
@@ -120,7 +120,7 @@ function showMessage(message, type) {
     // Dölj meddelandet efter 5 sekunder
     setTimeout(() => {
         messageDiv.style.display = 'none';
-    }, 5000);
+    }, 500000);
 }
 
 // Funktion för att ladda och visa alla fraser
@@ -143,7 +143,7 @@ async function loadAndDisplayPhrases() {
         phrasesContainer.innerHTML = `<p class="error">Kunde inte ladda fraser: ${result.message}</p>`;
     }
 }
-
+/*
 // Funktion för att visa fraser i HTML
 function displayPhrases(phrases, container) {
     if (!Array.isArray(phrases) || phrases.length === 0) {
@@ -164,6 +164,7 @@ function displayPhrases(phrases, container) {
 
     container.innerHTML = html;
 }
+*/
 
 // Hjälpfunktion för att escapea HTML
 function escapeHtml(text) {

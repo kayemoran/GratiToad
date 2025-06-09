@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "*")
 public class PhraseController {
     @Autowired
     private PhraseService phraseService;
@@ -69,7 +69,7 @@ public class PhraseController {
         }
     }
 
-
+    
     // Sök efter fraser som innehåller text
     @GetMapping("/phrases/search")
     public ResponseEntity<?> searchPhrases(@RequestParam String keyword) {
