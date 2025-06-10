@@ -67,7 +67,7 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+
     <section id="about" class="about-section">
         <h2>About</h2>
         <p>GratiToad is here to help you manage anxiety by building a simple daily habit: practicing gratitude.</p>
@@ -89,114 +89,6 @@
             or just need a gentle way to check in with yourself — GratiToad is your supportive companion every step of the way.</p>
     </section>
 
-    <script>
-        // Menu functionality
-        const hamburgerMenu = document.getElementById('hamburger-menu');
-        const sideMenu = document.getElementById('side-menu');
-        const closeMenu = document.getElementById('close-menu');
-        const menuOverlay = document.getElementById('menu-overlay');
-
-        function openMenu() {
-            sideMenu.classList.add('open');
-            menuOverlay.classList.add('active');
-            hamburgerMenu.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Prevent scrolling when menu is open
-        }
-
-        function closeMenuFunc() {
-            sideMenu.classList.remove('open');
-            menuOverlay.classList.remove('active');
-            hamburgerMenu.classList.remove('active');
-            document.body.style.overflow = 'auto'; // Re-enable scrolling
-        }
-
-        hamburgerMenu.addEventListener('click', openMenu);
-        closeMenu.addEventListener('click', closeMenuFunc);
-        menuOverlay.addEventListener('click', closeMenuFunc);
-
-        // Close menu when pressing Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && sideMenu.classList.contains('open')) {
-                closeMenuFunc();
-            }
-        });
-
-         // Sentiment analysis form
-        document.getElementById('sentimentForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const phrase = document.getElementById('textInput').value;
-            const userSentiment = document.getElementById('userSentiment').value;
-
-            // Här kan du skicka både text och userSentiment till din Spring Boot backend
-            console.log('Text:', phrase);
-            console.log('User sentiment rating:', userSentiment);
-
-            // Simulerad respons för demo   To do
-            setTimeout(() => {
-                const isPositive = Math.random() > 0.5;
-                const result = document.getElementById('result');
-                const resultText = document.getElementById('sentimentResult');
-
-                let resultMessage = '';
-                if (userSentiment) {
-                    const rating = parseInt(userSentiment);
-                    if (rating >= 2) {
-                        resultMessage = `✨ (${userSentiment})! GratiToad jumps with joy! 🐸💚`;
-                    } else if (rating === 1) {
-                        resultMessage = `😊 (${userSentiment}). GratiToad looks happy! 🐸`;
-                    } else if (rating === 0) {
-                        resultMessage = `😐 (${userSentiment}). GratiToad is intrigued 🐸`;
-                    } else if (rating === -1) {
-                        resultMessage = `😔 (${userSentiment}). A new anxiety mosquito starts buzzing `;
-                    } else if (rating <= -2) {
-                        resultMessage = `😢 (${userSentiment}). A fat anxiety mosquito is flying around `;
-                    }
-
-                    resultText.className = `result-text ${rating >= 0 ? 'positive' : 'negative'}`;
-                } else {
-                    // Fallback om ingen rating valts
-                    if (isPositive) {
-                        resultMessage = '✨ randomised AI: GratiToad jumps with joy, keep at it! 🐸💚';
-                        resultText.className = 'result-text positive';
-                    } else {
-                        resultMessage = '🌧️ randomised AI: A fat anxiety mosquito starts flying around ' ;
-                        resultText.className = 'result-text negative';
-                    }
-                }
-
-                resultText.innerHTML = resultMessage;
-                result.classList.add('show');
-            }, 1000);
-        });
-
-        //SPA navigation handling
-        const mainContent = document.getElementById('main-content');
-        const aboutSection = document.getElementById('about');
-        aboutSection.style.display = 'none';
-
-
-        function showSection(sectionId) {
-            if (sectionId === 'about') {
-                aboutSection.style.display = 'block';
-                mainContent.style.display = 'none';
-            } else if (sectionId === 'main-content') {
-                mainContent.style.display = 'block';
-                aboutSection.style.display = 'none';
-            }
-        }
-
-        //Event listeners to side menu links
-        document.querySelectorAll('.side-menu ul li a').forEach(link => {
-            link.addEventListener('click', function (event) {
-                event.preventDefault();
-                const sectionId = link.getAttribute('href').substring(1);
-                showSection(sectionId);
-                closeMenuFunc();
-            });
-        });
-        showSection('main-content');
-
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
