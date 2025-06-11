@@ -29,6 +29,7 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
+
 // API Configuration
 const API_BASE_URL = 'http://localhost:8080';
 
@@ -268,3 +269,30 @@ document.addEventListener('DOMContentLoaded', function() {
     // Ladda befintliga fraser
     loadAndDisplayPhrases();
 });
+
+//SPA navigation handling
+const mainContent = document.getElementById('main-content');
+const aboutSection = document.getElementById('about');
+aboutSection.style.display = 'none';
+
+
+function showSection(sectionId) {
+    if (sectionId === 'about') {
+        aboutSection.style.display = 'block';
+        mainContent.style.display = 'none';
+    } else if (sectionId === 'main-content') {
+        mainContent.style.display = 'block';
+        aboutSection.style.display = 'none';
+    }
+}
+
+//Event listeners to side menu links
+document.querySelectorAll('.side-menu ul li a').forEach(link => {
+    link.addEventListener('click', function (event) {
+        event.preventDefault();
+        const sectionId = link.getAttribute('href').substring(1);
+        showSection(sectionId);
+        closeMenuFunc();
+    });
+});
+showSection('main-content');
