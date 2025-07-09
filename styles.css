@@ -521,6 +521,72 @@
             color: #90EE90;
         }
 
+        /*Fraser och borttagnings rutor*/
+        /* Container för alla phrase items */
+        .phrases-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Enskild fras-ruta */
+        .phrase-item {
+            background: rgba(60, 100, 70, 0.2); /* subtil grön ton */
+            border: 1px solid #90EE90;
+            border-radius: 12px;
+            padding: 16px 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .phrase-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+
+        /* Frastexten */
+        .phrase-text {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #f0f5dc;
+            margin-bottom: 8px;
+            font-family: 'Georgia', serif;
+        }
+
+        /* Metadata (värde och användare) */
+        .phrase-sentiment,
+        .phrase-user {
+            font-size: 1rem;
+            color: #d8e3c2;
+            margin-bottom: 4px;
+            font-style: italic;
+        }
+
+        /* Knapparna */
+        .phrase-actions {
+            margin-top: 10px;
+            text-align: right;
+        }
+
+        .delete-btn {
+            background-color: #3c6540;
+            color: #f0f5dc;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .delete-btn:hover {
+            background-color: #90EE90;
+            color: #2b3d2e;
+        }
+
 
 
         @media (max-width: 768px) {
