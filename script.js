@@ -197,12 +197,11 @@ async function loadAndDisplayPhrases() {
     const result = await getAllPhrases();
 
     if (result.success) {
-
+        displayPhrases(result.data, phrasesContainer);
     } else {
         phrasesContainer.innerHTML = `<p class="error">Kunde inte ladda fraser: ${result.message}</p>`;
     }
 }
-/*
 // Funktion för att visa fraser i HTML
 function displayPhrases(phrases, container) {
     if (!Array.isArray(phrases) || phrases.length === 0) {
@@ -223,7 +222,6 @@ function displayPhrases(phrases, container) {
 
     container.innerHTML = html;
 }
-*/
 
 // Hjälpfunktion för att escapea HTML
 function escapeHtml(text) {
@@ -339,15 +337,24 @@ document.addEventListener('DOMContentLoaded', function() {
 const mainContent = document.getElementById('main-content');
 const aboutSection = document.getElementById('about');
 aboutSection.style.display = 'none';
+const favoriteSection = document.getElementById('favorite');
+favoriteSection.style.display = 'none';
 
 
 function showSection(sectionId) {
     if (sectionId === 'about') {
         aboutSection.style.display = 'block';
         mainContent.style.display = 'none';
-    } else if (sectionId === 'main-content') {
-        mainContent.style.display = 'block';
+        favoriteSection.style.display = 'none';
+    } else if (sectionId === 'favorite') {
         aboutSection.style.display = 'none';
+        mainContent.style.display = 'none';
+        favoriteSection.style.display = 'block';
+        loadAndDisplayPhrases(); // <-- Ladda fraser när du visar "favorite"
+    } else {
+        aboutSection.style.display = 'none';
+        favoriteSection.style.display = 'none';
+        mainContent.style.display = 'block';
     }
 }
 

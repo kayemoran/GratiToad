@@ -441,7 +441,7 @@
             visibility: visible;
         }
 
-        #about {
+        .info-section {
             display: none;
             padding: 20px;
             text-align: left;
@@ -453,7 +453,7 @@
         }
 
         /*heading inside About */
-        #about h2 {
+        .info-section h2 {
             color: #90EE90;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
             margin-bottom: 20px;
@@ -462,7 +462,7 @@
         }
 
         /* Body text inside About */
-        #about p {
+        .info-section p {
             font-size: clamp(1rem, 2.5vw, 1.2rem);
             line-height: 1.6;
             color: #f0f5dc;
@@ -471,7 +471,7 @@
         }
 
         /* List styling within About */
-        #about ul {
+        .info-section ul {
             padding-left: 1.5rem; /* Spacing between bullets */
             margin: 20px 0;
             list-style-type: disc; /* Default bullet style */
@@ -482,7 +482,7 @@
         }
 
         /* Individual list item */
-        #about ul li {
+        .info-section ul li {
             margin-bottom: 12px;
             position: relative;
             padding-left: 10px;
@@ -490,12 +490,12 @@
         }
 
         /* Simple animation for about*/
-        #about.show {
+        .info-section.show {
             animation: fadeInUp 0.6s ease;
         }
 
         /* Decorative bars */
-        #about::before {
+        .info-section::before {
             content: "";
             display: block;
             width: 80px;
@@ -504,7 +504,7 @@
             background: linear-gradient(to right, #90EE90, #3c6540);
             border-radius: 2px;
         }
-        #about::after {
+        .info-section::after {
             content: "";
             display: block;
             width: 80px;
@@ -514,11 +514,77 @@
             border-radius: 2px;
         }
 
-        #about ul li::before {
+        .info-section ul li::before {
             content: "🌿";
             position: absolute;
             left: -1.5rem;
             color: #90EE90;
+        }
+
+        /*Fraser och borttagnings rutor*/
+        /* Container för alla phrase items */
+        .phrases-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Enskild fras-ruta */
+        .phrase-item {
+            background: rgba(60, 100, 70, 0.2); /* subtil grön ton */
+            border: 1px solid #90EE90;
+            border-radius: 12px;
+            padding: 16px 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .phrase-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+
+        /* Frastexten */
+        .phrase-text {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #f0f5dc;
+            margin-bottom: 8px;
+            font-family: 'Georgia', serif;
+        }
+
+        /* Metadata (värde och användare) */
+        .phrase-sentiment,
+        .phrase-user {
+            font-size: 1rem;
+            color: #d8e3c2;
+            margin-bottom: 4px;
+            font-style: italic;
+        }
+
+        /* Knapparna */
+        .phrase-actions {
+            margin-top: 10px;
+            text-align: right;
+        }
+
+        .delete-btn {
+            background-color: #3c6540;
+            color: #f0f5dc;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .delete-btn:hover {
+            background-color: #90EE90;
+            color: #2b3d2e;
         }
 
 
