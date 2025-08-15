@@ -55,7 +55,7 @@ async function savePhrase(phraseData) {
         }
     } catch (error) {
         console.error('Network error:', error);
-        return { success: false, message: 'Nätverksfel: Kunde inte ansluta till servern' };
+        return { success: false, message: 'Network error: Could not connect to server' };
     }
 }
 
@@ -73,13 +73,13 @@ async function getAllPhrases() {
         }
     } catch (error) {
         console.error('Network error:', error);
-        return { success: false, message: 'Kunde inte hämta fraser' };
+        return { success: false, message: 'Could not fetch phrases' };
     }
 }
 
 // Funktion för att ta bort en fras
 async function deletePhrase(id) {
-    if (!confirm('Är du säker på att du vill ta bort denna fras?')) {
+    if (!confirm('Are you sure you want to delete this phrase?')) {
         return;
     }
 
@@ -92,14 +92,14 @@ async function deletePhrase(id) {
             console.log('Phrase deleted successfully');
             // Ladda om fraser efter borttagning
             loadAndDisplayPhrases();
-            showMessage('Frasen togs bort framgångsrikt!', 'success');
+            showMessage('Phrase deleted successfully!', 'success');
         } else {
             const errorMessage = await response.text();
-            showMessage(`Fel vid borttagning: ${errorMessage}`, 'error');
+            showMessage(`Error during removal: ${errorMessage}`, 'error');
         }
     } catch (error) {
         console.error('Error:', error);
-        showMessage('Nätverksfel vid borttagning av fras', 'error');
+        showMessage('Network error during phrase removal', 'error');
     }
 }
 
@@ -199,23 +199,23 @@ async function loadAndDisplayPhrases() {
     if (result.success) {
         displayPhrases(result.data, phrasesContainer);
     } else {
-        phrasesContainer.innerHTML = `<p class="error">Kunde inte ladda fraser: ${result.message}</p>`;
+        phrasesContainer.innerHTML = `<p class="error">Couldn't load phrases: ${result.message}</p>`;
     }
 }
 // Funktion för att visa fraser i HTML
 function displayPhrases(phrases, container) {
     if (!Array.isArray(phrases) || phrases.length === 0) {
-        container.innerHTML = '<p>Inga fraser att visa.</p>';
+        container.innerHTML = '<p>No phrases to show.</p>';
         return;
     }
 
     const html = phrases.map(phrase => `
         <div class="phrase-item" data-id="${phrase.id}">
             <p class="phrase-text">${escapeHtml(phrase.phrase || '')}</p>
-            <p class="phrase-sentiment">Värde: ${phrase.value || 'N/A'}</p>
-            <p class="phrase-user">Användare: ${phrase.user ? phrase.user.user : 'N/A'}</p>
+            <p class="phrase-sentiment">Value: ${phrase.value || 'N/A'}</p>
+            <p class="phrase-user">User: ${phrase.user ? phrase.user.user : 'N/A'}</p>
             <div class="phrase-actions">
-                <button onclick="deletePhrase(${phrase.id})" class="delete-btn">Ta bort</button>
+                <button onclick="deletePhrase(${phrase.id})" class="delete-btn">Delete</button>
             </div>
         </div>
     `).join('');
@@ -243,18 +243,18 @@ document.getElementById('sentimentForm').addEventListener('submit', async functi
 
     // Validera input
     if (!phrase) {
-        showMessage('Vänligen skriv in en text', 'error');
+        showMessage('Kindly write your text', 'error');
         return;
     }
 
     if (!userSentiment) {
-        showMessage('Vänligen välj hur du känner dig', 'error');
+        showMessage('Kindly grade how you feel', 'error');
         return;
     }
 
     // Visa loading state
     submitButton.disabled = true;
-    submitButton.textContent = 'Sparar...';
+    submitButton.textContent = 'Saving...';
 
     // Skapa phrase object enligt din entity-struktur
     const phraseData = {
@@ -270,7 +270,7 @@ document.getElementById('sentimentForm').addEventListener('submit', async functi
         const result = await savePhrase(phraseData);
 
         if (result.success) {
-            showMessage('Frasen sparades framgångsrikt!', 'success');
+            showMessage('The phrase was saved successfully!', 'success');
 
             // Rensa formuläret
             textInput.value = '';
@@ -283,11 +283,11 @@ document.getElementById('sentimentForm').addEventListener('submit', async functi
             showSentimentResult(userSentiment);
 
         } else {
-            showMessage(`Fel: ${result.message}`, 'error');
+            showMessage(`Error: ${result.message}`, 'error');
         }
     } catch (error) {
         console.error('Error saving phrase:', error);
-        showMessage('Ett oväntat fel inträffade', 'error');
+        showMessage('An unexpected error occurred', 'error');
     }
 
     // Återställ knappen
