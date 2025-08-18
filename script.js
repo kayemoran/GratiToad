@@ -339,19 +339,33 @@ const aboutSection = document.getElementById('about');
 aboutSection.style.display = 'none';
 const favoriteSection = document.getElementById('favorite');
 favoriteSection.style.display = 'none';
+const contactSection = document.getElementById('contact');
+contactSection.style.display = 'none';
 
 
 function showSection(sectionId) {
     if (sectionId === 'about') {
         aboutSection.style.display = 'block';
+
         mainContent.style.display = 'none';
         favoriteSection.style.display = 'none';
+        contactSection.style.display = 'none';
     } else if (sectionId === 'favorite') {
         aboutSection.style.display = 'none';
         mainContent.style.display = 'none';
+        contactSection.style.display = 'none';
+
         favoriteSection.style.display = 'block';
         loadAndDisplayPhrases(); // <-- Ladda fraser när du visar "favorite"
+    } else if (sectionId === 'contact') {
+        contactSection.style.display = 'block';
+
+        aboutSection.style.display = 'none';
+        mainContent.style.display = 'none';
+        favoriteSection.style.display = 'none';
+
     } else {
+        contactSection.style.display = 'none';
         aboutSection.style.display = 'none';
         favoriteSection.style.display = 'none';
         mainContent.style.display = 'block';
