@@ -39,8 +39,8 @@
         <form id="sentimentForm" class="input-container">
             <textarea
                 class="text-input"
-                id="textInput" 
-                name="text" 
+                id="textInput"
+                name="text"
                 required></textarea>
 
             <div class="sentiment-selector">
@@ -65,6 +65,27 @@
 
         <div class="toad-container">
             <div class="toad-placeholder">🐸</div>
+        </div>
+    </div>
+
+    <!-- redigera fraser -->
+    <div id="editModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close" id="closeEditModal">&times;</span>
+            <h2>Redigera fras</h2>
+            <form id="editForm">
+                <textarea id="editText" required></textarea>
+                <select id="editValue" required>
+                    <option value="3">+3 (Very positive)</option>
+                    <option value="2">+2 (Positive)</option>
+                    <option value="1">+1 (Somewhat positive)</option>
+                    <option value="0">0 (Neutral)</option>
+                    <option value="-1">-1 (Somewhat negative)</option>
+                    <option value="-2">-2 (Negative)</option>
+                    <option value="-3">-3 (Very negative)</option>
+                </select>
+                <button type="submit">Save changes</button>
+            </form>
         </div>
     </div>
 
