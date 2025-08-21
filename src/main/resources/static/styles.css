@@ -786,7 +786,7 @@
             margin: 5px 0;
             font-style: italic;
         }
-        /* Instructions Modal Styling */
+        /* Instructions Modal Styling
         .instructions-modal {
             position: fixed;
             top: 0;
@@ -808,7 +808,7 @@
             background: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(5px);
             z-index: 100; /* Lägre än content */
-        }
+
 
         .instructions-content {
             position: relative;
@@ -826,36 +826,7 @@
             margin: 20px;
         }
 
-        .close-instructions {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            background: transparent;
-            border: none;
-            color: #90EE90;
-            font-size: 24px;
-            cursor: pointer;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
 
-        .close-instructions:hover {
-            background: rgba(144, 238, 144, 0.1);
-            transform: rotate(90deg);
-        }
-
-        .instructions-content h2 {
-            color: #90EE90;
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 2rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
 
         .instruction-step {
             margin-bottom: 25px;

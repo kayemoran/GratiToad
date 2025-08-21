@@ -125,64 +125,6 @@ function showMessage(message, type) {
     }, 500000);
 }
 
-// How to use meny funktion
-function showInstructions() {
-    // Stäng menyn först
-    closeMenuFunc();
-
-    // Skapa eller hitta instruktions-container
-    let instructionsContainer = document.getElementById('instructionsContainer');
-    if (!instructionsContainer) {
-        instructionsContainer = document.createElement('div');
-        instructionsContainer.id = 'instructionsContainer';
-        instructionsContainer.className = 'instructions-modal';
-        document.body.appendChild(instructionsContainer);
-    }
-
-    // Sätt innehållet för instruktionerna
-    instructionsContainer.innerHTML = `
-        <div class="instructions-content">
-            <button class="close-instructions" onclick="closeInstructions()">✖</button>
-            <h2>🐸 How to Use GratiToad</h2>
-            <div class="instruction-step">
-                <h3>📝 Step 1: Write Your Thoughts</h3>
-                <p>Type anything that's on your mind in the text area - it could be something you're grateful for, a worry, or just how you're feeling right now.</p>
-            </div>
-            <div class="instruction-step">
-                <h3>😊 Step 2: Rate Your Feeling</h3>
-                <p>Choose how this thought makes you feel using the dropdown menu:</p>
-                <ul>
-                    <li><span class="rating positive">+3 to +1:</span> Positive feelings (GratiToad will be happy!)</li>
-                    <li><span class="rating neutral">0:</span> Neutral feelings (GratiToad is curious)</li>
-                    <li><span class="rating negative">-1 to -3:</span> Negative feelings (Don't worry, GratiToad understands)</li>
-                </ul>
-            </div>
-            <div class="instruction-step">
-                <h3>🚀 Step 3: Share</h3>
-                <p>Click the "Share" button to save your thought and see GratiToad's reaction!</p>
-            </div>
-            <div class="instruction-step">
-                <h3>🌟 Why Use GratiToad?</h3>
-                <p>GratiToad helps you track your thoughts and feelings. By writing down both positive and negative experiences, you can better understand your emotional patterns and practice mindfulness.</p>
-            </div>
-        </div>
-        <div class="instructions-overlay" onclick="closeInstructions()"></div>
-    `;
-
-    // Visa instruktionerna
-    instructionsContainer.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-}
-
-// Funktion för att stänga instruktioner
-function closeInstructions() {
-    const instructionsContainer = document.getElementById('instructionsContainer');
-    if (instructionsContainer) {
-        instructionsContainer.style.display = 'none';
-        document.body.style.overflow = 'auto';
-    }
-}
-
 // Funktion för att ladda och visa alla fraser + redigera spara
 async function loadAndDisplayPhrases() {
     try {
@@ -431,6 +373,8 @@ document.addEventListener('DOMContentLoaded', function() {
 const mainContent = document.getElementById('main-content');
 const aboutSection = document.getElementById('about');
 aboutSection.style.display = 'none';
+const howtouseSection = document.getElementById('how-to-use');
+howtouseSection.style.display = 'none';
 const favoriteSection = document.getElementById('favorite');
 favoriteSection.style.display = 'none';
 const contactSection = document.getElementById('contact');
@@ -441,11 +385,21 @@ function showSection(sectionId) {
     if (sectionId === 'about') {
         aboutSection.style.display = 'block';
 
+        howtouseSection.style.display = 'none';
         mainContent.style.display = 'none';
         favoriteSection.style.display = 'none';
         contactSection.style.display = 'none';
-    } else if (sectionId === 'favorite') {
+    }
+    else if (sectionId === 'how-to-use') {
+        howtouseSection.style.display = 'block';
+
+        mainContent.style.display = 'none';
+        favoriteSection.style.display = 'none';
+        contactSection.style.display = 'none';
+    }
+    else if (sectionId === 'favorite') {
         aboutSection.style.display = 'none';
+        howtouseSection.style.display = 'none';
         mainContent.style.display = 'none';
         contactSection.style.display = 'none';
 
@@ -455,10 +409,12 @@ function showSection(sectionId) {
         contactSection.style.display = 'block';
 
         aboutSection.style.display = 'none';
+        howtouseSection.style.display = 'none';
         mainContent.style.display = 'none';
         favoriteSection.style.display = 'none';
 
     } else {
+        howtouseSection.style.display = 'none';
         contactSection.style.display = 'none';
         aboutSection.style.display = 'none';
         favoriteSection.style.display = 'none';
