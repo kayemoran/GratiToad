@@ -41,6 +41,7 @@ async function savePhrase(phraseData) {
             headers: {
                 'Content-Type': 'application/json',
             },
+            credentials: "include",
             body: JSON.stringify(phraseData)
         });
 
