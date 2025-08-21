@@ -667,6 +667,44 @@
             color: #2b3d2e;
         }
 
+        .edit-btn{
+            background-color: #3c6540;
+            color: #f0f5dc;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .edit-btn:hover {
+            background-color: #90EE90;
+            color: #2b3d2e;
+        }
+
+        /* Redigera fraser */
+        #editModal {
+            display: none; /* start hidden */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0,0,0,0.5);
+        }
+        #editModal.show {
+            display: flex;
+        }
+        .edit-modal-content {
+            background: #fff;
+            padding: 1rem;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 400px;
+        }
 
 
         @media (max-width: 768px) {

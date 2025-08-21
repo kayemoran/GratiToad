@@ -41,6 +41,7 @@ async function savePhrase(phraseData) {
             headers: {
                 'Content-Type': 'application/json',
             },
+            credentials: "include",
             body: JSON.stringify(phraseData)
         });
 
@@ -182,26 +183,51 @@ function closeInstructions() {
     }
 }
 
-// Funktion för att ladda och visa alla fraser
+// Funktion för att ladda och visa alla fraser + redigera spara
 async function loadAndDisplayPhrases() {
-    let phrasesContainer = document.getElementById('phrasesContainer');
+    try {
+        const response = await fetch("http://localhost:8080/api/phrases");
+        const phrases = await response.json();
 
-    // Skapa container om den inte finns
-    if (!phrasesContainer) {
-        phrasesContainer = document.createElement('div');
-        phrasesContainer.id = 'phrasesContainer';
-        phrasesContainer.className = 'phrases-container';
-        document.querySelector('.container').appendChild(phrasesContainer);
-    }
+        const container = document.getElementById("phrasesContainer");
+        container.innerHTML = "";
 
-    const result = await getAllPhrases();
+        phrases.forEach(phrase => {
+            const div = document.createElement("div");
+            div.classList.add("phrase-item");
 
-    if (result.success) {
-        displayPhrases(result.data, phrasesContainer);
-    } else {
-        phrasesContainer.innerHTML = `<p class="error">Couldn't load phrases: ${result.message}</p>`;
+            // Lägg till både text, redigerings- och radera-knapp
+            div.innerHTML = `
+                <p>${phrase.phrase} (Sentiment: ${phrase.value})</p>
+                <button class="edit-btn" data-id="${phrase.id}">✏️ Redigera</button>
+                <button class="delete-btn" data-id="${phrase.id}">🗑️ Radera</button>
+            `;
+            container.appendChild(div);
+        });
+
+        // Lägg till event listeners för redigering
+        document.querySelectorAll(".edit-btn").forEach(btn => {
+            btn.addEventListener("click", () => openEditModal(btn.dataset.id));
+        });
+
+        // Lägg till event listeners för radering
+        document.querySelectorAll(".delete-btn").forEach(btn => {
+            btn.addEventListener("click", async () => {
+                await deletePhrase(btn.dataset.id); // din befintliga delete-funktion
+                loadAndDisplayPhrases(); // uppdatera listan efter radering
+            });
+        });
+
+    } catch (error) {
+        console.error("Kunde inte hämta fraser:", error);
     }
 }
+
+// Kör funktionen vid sidladdning
+document.addEventListener("DOMContentLoaded", () => {
+    loadAndDisplayPhrases();
+});
+
 // Funktion för att visa fraser i HTML
 function displayPhrases(phrases, container) {
     if (!Array.isArray(phrases) || phrases.length === 0) {
@@ -294,6 +320,74 @@ document.getElementById('sentimentForm').addEventListener('submit', async functi
     submitButton.disabled = false;
     submitButton.textContent = 'Share';
 });
+//Funktion för redigering av fraser
+function renderPhrases(phrases) {
+    const container = document.getElementById("phrasesContainer");
+    container.innerHTML = "";
+
+    phrases.forEach(phrase => {
+        const phraseDiv = document.createElement("div");
+        phraseDiv.classList.add("phrase-item");
+        phraseDiv.innerHTML = `
+            <p>${phrase.phrase} <span class="value">(${phrase.value})</span></p>
+            <button class="edit-btn" data-id="${phrase.id}">Edit</button>
+            <button class="delete-btn" data-id="${phrase.id}">Delete</button>
+        `;
+        container.appendChild(phraseDiv);
+    });
+
+    // Knyt event för redigering
+    document.querySelectorAll(".edit-btn").forEach(btn => {
+        btn.addEventListener("click", () => openEditModal(btn.dataset.id));
+    });
+
+    // Knyt event för radering
+    document.querySelectorAll(".delete-btn").forEach(btn => {
+        btn.addEventListener("click", () => deletePhrase(btn.dataset.id));
+    });
+}
+
+let currentEditId = null;
+
+function openEditModal(id) {
+    fetch(`http://localhost:8080/api/phrases/${id}`)
+        .then(res => res.json())
+        .then(phrase => {
+            currentEditId = phrase.id;
+            document.getElementById("editText").value = phrase.phrase;
+            document.getElementById("editValue").value = phrase.value;
+            document.getElementById("editModal").classList.add("show");
+        });
+}
+
+// Stäng modal
+document.getElementById("closeEditModal").addEventListener("click", () => {
+    document.getElementById("editModal").classList.remove("show");
+});
+document.getElementById("editForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const updatedPhrase = {
+        phrase: document.getElementById("editText").value,
+        value: parseInt(document.getElementById("editValue").value),
+        user: { userId: 1 } // tillfälligt hårdkodat
+    };
+
+    const response = await fetch(`http://localhost:8080/api/phrases/${currentEditId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedPhrase)
+    });
+
+    if (response.ok) {
+        alert("Fras uppdaterad!");
+        document.getElementById("editModal").classList.remove("show");
+        loadAndDisplayPhrases(); // ladda om listan
+    } else {
+        alert("Något gick fel vid uppdatering.");
+    }
+});
+
 
 // Funktion för att visa sentiment resultat
 function showSentimentResult(userSentiment) {
