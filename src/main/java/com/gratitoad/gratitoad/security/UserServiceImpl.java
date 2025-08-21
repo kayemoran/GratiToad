@@ -19,6 +19,10 @@ public class UserServiceImpl implements UserDetailsService {
         // Hämta användare från databas
         User user = userRepository.findByUser(username);
 
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found: " + username);
+        }
+
         // Skapa Spring Security User (returnera UserDetails)
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getUser()) // Användarnamn
