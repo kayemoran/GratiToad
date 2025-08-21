@@ -441,6 +441,7 @@
             visibility: visible;
         }
 
+        /* style inside nav pages */
         .info-section {
             display: none;
             padding: 20px;
@@ -452,7 +453,7 @@
 
         }
 
-        /*heading inside About */
+        /* heading inside nav pages */
         .info-section h2 {
             color: #90EE90;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
@@ -461,6 +462,7 @@
             font-size: clamp(1.75rem, 4vw, 2.25rem);
         }
 
+        /* ======== ABOUT SECTION ======== */
         /* Body text inside About */
         .info-section p {
             font-size: clamp(1rem, 2.5vw, 1.2rem);
@@ -479,6 +481,7 @@
             font-size: clamp(1rem, 2.5vw, 1.2rem);
             line-height: 1.6;
             opacity: 0.9;
+            list-style: none;
         }
 
         /* Individual list item */
@@ -494,7 +497,7 @@
             animation: fadeInUp 0.6s ease;
         }
 
-        /* Decorative bars */
+        /*  ======== Decorative bars ========= */
         .info-section::before {
             content: "";
             display: block;
@@ -514,12 +517,89 @@
             border-radius: 2px;
         }
 
-        .info-section ul li::before {
+        /* ========= list leaves ======== */
+        .info-section:not(#contact) ul li::before {
             content: "🌿";
             position: absolute;
             left: -1.5rem;
             color: #90EE90;
         }
+
+        /* ======== CONTACT SECTION ======== */
+        .contact-card {
+            background: rgba(0, 0, 0, 0.2);
+            border: 2px solid #4a6741;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            margin-bottom: 40px; /* extra luft under kortet */
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            backdrop-filter: blur(8px);
+
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+        }
+
+        .socials {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+
+            margin-top: 10px;
+
+        }
+
+        .socials a {
+            display: inline-block;
+            padding: 6px 12px;
+            border: 1px solid #4a6741;
+            border-radius: 12px;
+            background: rgba(60, 100, 70, 0.15);
+            color: #90EE90;
+            transition: all 0.25s ease;
+            font-size: 0.9rem;
+            text-decoration: none;
+
+            transition: all 0.3s ease;
+
+        }
+
+        .socials a:hover {
+            background: rgba(144,238,144,0.1);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.25);
+        }
+
+        #contact {
+            position: relative;
+            overflow: hidden;
+
+        }
+
+        /* Toad to the right */
+        .contact-toad {
+            position: absolute;
+            top: 50px;
+            right: 20px;  /* flyttar grodan till höger */
+            font-size: 5rem;
+            opacity: 0.08;
+            pointer-events: none;
+            z-index: 0;
+
+            animation: bounce 2s infinite ease-in-out;
+
+        }
+
+        /* Studs-animation */
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-15px); /* hopphöjd */
+            }
+        }
+
 
         /*Fraser och borttagnings rutor*/
         /* Container för alla phrase items */
