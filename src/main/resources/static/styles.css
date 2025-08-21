@@ -601,6 +601,34 @@
             animation: bounce 2s infinite ease-in-out;
 
         }
+        .about-section {
+            margin-bottom: 25px;
+        }
+
+        .about-section p {
+            margin-bottom: 12px; /* lite luft mellan styckena */
+        }
+
+        .about-section h3 {
+            font-size: clamp(1.3rem, 2.5vw, 1.6rem);
+            font-weight: 700;
+            color: #e3f8d0;
+            margin-bottom: 12px;
+            margin-top: 25px;
+            text-align: left;
+            position: relative;
+            padding-bottom: 6px; /* så texten inte krockar med linjen */
+        }
+
+        .about-section h3::after {
+            content: "";
+            display: block;
+            width: 50px; /* längden på linjen */
+            height: 3px;
+            margin-top: 6px;
+            background: linear-gradient(to right, #90EE90, #3c6540);
+            border-radius: 2px;
+        }
 
         /* Studs-animation */
         @keyframes bounce {
