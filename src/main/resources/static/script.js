@@ -382,6 +382,12 @@ contactSection.style.display = 'none';
 
 
 function showSection(sectionId) {
+
+    aboutSection.style.display = 'none';
+    howtouseSection.style.display = 'none';
+    mainContent.style.display = 'none';
+    favoriteSection.style.display = 'none';
+    contactSection.style.display = 'none';
     if (sectionId === 'about') {
         aboutSection.style.display = 'block';
 
@@ -414,10 +420,6 @@ function showSection(sectionId) {
         favoriteSection.style.display = 'none';
 
     } else {
-        howtouseSection.style.display = 'none';
-        contactSection.style.display = 'none';
-        aboutSection.style.display = 'none';
-        favoriteSection.style.display = 'none';
         mainContent.style.display = 'block';
     }
 }
