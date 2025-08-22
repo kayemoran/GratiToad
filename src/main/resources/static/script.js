@@ -402,6 +402,7 @@ function showSection(sectionId) {
         mainContent.style.display = 'none';
         favoriteSection.style.display = 'none';
         contactSection.style.display = 'none';
+        aboutSection.style.display= 'none;'
     }
     else if (sectionId === 'favorite') {
         aboutSection.style.display = 'none';
